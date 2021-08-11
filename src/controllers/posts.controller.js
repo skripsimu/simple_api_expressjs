@@ -23,10 +23,14 @@ exports.create = function (req, res) {
     }
 };
 exports.findById = function (req, res) {
-    Post.findById(req.params.id, function (err, employee) {
-        if (err)
-            res.send(err);
-        res.json(employee);
+    Post.findById(req.params.id, function (err, post) {
+        if (post.length == 0) {
+            res.status(400).send({ error: true, message: 'Post not found' });
+        } else {
+            if (err)
+                res.send(err);
+            res.json(post);
+        }
     });
 };
 exports.update = function (req, res) {
